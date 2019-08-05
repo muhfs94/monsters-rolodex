@@ -1,32 +1,41 @@
-import React from 'react';
-import { CardList } from './components/card-list/card-list-component';
-import './App.css';
+import React from 'react'
+import './components/card/card.styles.css'
+import './components/card-list/card-list.css'
+import './App.css'
 
 class App extends React.Component {
-  constructor(){
-    super();
+  constructor() {
+    super()
+
     this.state = {
-      monsters : []
-    };
+      hoomans: []
+    }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     fetch('https://jsonplaceholder.typicode.com/users')
-    .then(res => res.json())
-    .then(users => this.setState( { monsters: users}));
+      .then(response => response.json())
+      .then(users => this.setState({ hoomans: users }))
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <div className="App">
-      <CardList>
-      { this.state.monsters.map (monster => (
-        <h1> {monster.name}</h1>
-      ))}
-      </CardList>
+        <div className="card-list">
+          {this.state.hoomans.map(hooman => (
+            <div key={hooman.id} className="card-container">
+              <img
+                alt="hooman"
+                src={`https://robohash.org/${hooman.id}?set=set2&size=180x180`}
+              />
+              <h2>{hooman.name}</h2>
+              <p>{hooman.email}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
