@@ -1,6 +1,5 @@
 import React from 'react'
-import './components/card/card.styles.css'
-import './components/card-list/card-list.css'
+import { CardListComponent } from './components/card-list/CardListComponent'
 import './App.css'
 
 class App extends React.Component {
@@ -8,7 +7,8 @@ class App extends React.Component {
     super()
 
     this.state = {
-      hoomans: []
+      hoomans: [],
+      searchField: ''
     }
   }
 
@@ -19,20 +19,17 @@ class App extends React.Component {
   }
 
   render() {
+    const { hoomans, searchField } = this.state;
+    // its the same as :
+    // const hoomans = this.state.hoomans;
+    // const searchField = this.state.searchField;
+    const filteredHoomans = hoomans.filter(hooman =>
+      hooman.name.toLowerCase().includes(searchField.toLowerCase())
+      );
     return (
       <div className="App">
-        <div className="card-list">
-          {this.state.hoomans.map(hooman => (
-            <div key={hooman.id} className="card-container">
-              <img
-                alt="hooman"
-                src={`https://robohash.org/${hooman.id}?set=set2&size=180x180`}
-              />
-              <h2>{hooman.name}</h2>
-              <p>{hooman.email}</p>
-            </div>
-          ))}
-        </div>
+      <input type='search' placeholder='search hooman' onChange={el => this.setState({ searchField: el.target.value })} />
+        <CardListComponent humanz={filteredHoomans} />
       </div>
     )
   }
